@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		5133390929A7C3BB00C7CC0C /* ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5133390829A7C3BB00C7CC0C /* ImageService.swift */; };
+		5133390B29A7EDDE00C7CC0C /* ImageFavoris.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5133390A29A7EDDE00C7CC0C /* ImageFavoris.swift */; };
+		5133390D29A7F47E00C7CC0C /* DiaporamaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5133390C29A7F47E00C7CC0C /* DiaporamaViewController.swift */; };
 		51D6BD8F29A79CB8000A3485 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D6BD8E29A79CB8000A3485 /* AppDelegate.swift */; };
 		51D6BD9129A79CB8000A3485 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D6BD9029A79CB8000A3485 /* SceneDelegate.swift */; };
 		51D6BD9629A79CB8000A3485 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 51D6BD9429A79CB8000A3485 /* Main.storyboard */; };
@@ -43,6 +45,8 @@
 
 /* Begin PBXFileReference section */
 		5133390829A7C3BB00C7CC0C /* ImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageService.swift; sourceTree = "<group>"; };
+		5133390A29A7EDDE00C7CC0C /* ImageFavoris.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFavoris.swift; sourceTree = "<group>"; };
+		5133390C29A7F47E00C7CC0C /* DiaporamaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaporamaViewController.swift; sourceTree = "<group>"; };
 		51D6BD8B29A79CB8000A3485 /* Pixtab.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pixtab.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		51D6BD8E29A79CB8000A3485 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		51D6BD9029A79CB8000A3485 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -147,6 +151,7 @@
 				51D6BDCD29A7AD95000A3485 /* ApiService.swift */,
 				51D6BDCF29A7BAAB000A3485 /* ImageData.swift */,
 				5133390829A7C3BB00C7CC0C /* ImageService.swift */,
+				5133390A29A7EDDE00C7CC0C /* ImageFavoris.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -166,6 +171,7 @@
 			children = (
 				51D6BDC529A79E29000A3485 /* SearchViewController.swift */,
 				51D6BDCB29A7ABEA000A3485 /* FavorisViewController.swift */,
+				5133390C29A7F47E00C7CC0C /* DiaporamaViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -308,8 +314,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5133390B29A7EDDE00C7CC0C /* ImageFavoris.swift in Sources */,
 				51D6BD8F29A79CB8000A3485 /* AppDelegate.swift in Sources */,
 				51D6BDC829A7AAC2000A3485 /* ImageCollectionViewCell.swift in Sources */,
+				5133390D29A7F47E00C7CC0C /* DiaporamaViewController.swift in Sources */,
 				5133390929A7C3BB00C7CC0C /* ImageService.swift in Sources */,
 				51D6BDCC29A7ABEA000A3485 /* FavorisViewController.swift in Sources */,
 				51D6BD9129A79CB8000A3485 /* SceneDelegate.swift in Sources */,

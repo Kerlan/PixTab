@@ -14,46 +14,67 @@ class SearchViewController: UIViewController {
     @IBOutlet weak var nextButton: UIButton!
     @IBOutlet weak var pageNbLabel: UILabel!
     @IBOutlet weak var favorisBarButtonItem: UIBarButtonItem!
+    @IBOutlet weak var pagingStackView: UIStackView!
+    @IBOutlet weak var loadingActivityIndicatorView: UIActivityIndicatorView!
     
     private var pageNb: Int = 1
     private var imageDatas: [ImageData] = []
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-    }
-    
     @IBAction func foundImages(_ sender: Any) {
-        fetchImages()
+        pageNb = 0
+        fetchImages(direction: 1)
     }
     
     @IBAction func goPrevPage(_ sender: Any) {
-        if pageNb != 1 {
-            pageNb -= 1
-            fetchImages()
-        }
+        fetchImages(direction: -1)
     }
     
     @IBAction func goNextPage(_ sender: Any) {
-        pageNb += 1
-        fetchImages()
+        fetchImages(direction: 1)
     }
     
-    func fetchImages() {
+    func fetchImages(direction: Int) {
         guard let search: String = searchTextField.text else {
             return
         }
-        guard let page: String = pageNbLabel.text else {
-            return
-        }
-        ApiService.shared.fetchImages(search: search, page: page) { (status, message, data)  in
+        
+        setPaging(direction: direction)
+        showActivityIndicator(animated: true)
+        ApiService.shared.fetchImages(search: search, page: "\(pageNb)") { (status, message, data)  in
             if status, let data = data {
                 self.imageDatas = data
-                print(self.imageDatas.count)
                 self.imageCollectionView.reloadData()
             } else {
                 // gestion d'erreur
             }
+            self.showActivityIndicator(animated: false)
+        }
+    }
+    
+    func setPaging(direction: Int) {
+        if direction < 0 && pageNb > 1{
+            pageNb -= 1
+        } else {
+            pageNb += 1
+        }
+        if pageNb == 1 {
+            prevButton.isEnabled = false
+        } else {
+            prevButton.isEnabled = true
+        }
+        pageNbLabel.text = "\(pageNb)"
+        pagingStackView.isHidden = false
+    }
+    
+    func showActivityIndicator(animated: Bool) {
+        if animated {
+            loadingActivityIndicatorView.startAnimating()
+            loadingActivityIndicatorView.isHidden = false
+            pagingStackView.isHidden = true
+        } else {
+            loadingActivityIndicatorView.stopAnimating()
+            loadingActivityIndicatorView.isHidden = true
+            pagingStackView.isHidden = false
         }
     }
 }
@@ -64,10 +85,32 @@ extension SearchViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCell", for: indexPath) as? ImageCollectionViewCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SearchImageCell", for: indexPath) as? ImageCollectionViewCell else {
             return UICollectionViewCell()
         }
         cell.configure(image: imageDatas[indexPath.row].image, isSelected: imageDatas[indexPath.row].isSelected)
         return cell
+    }
+}
+
+extension SearchViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        setFavorisImages(row: indexPath.row)
+        collectionView.reloadData()
+    }
+    
+    func setFavorisImages(row: Int) {
+        imageDatas[row].isSelected = !imageDatas[row].isSelected
+        if imageDatas[row].isSelected {
+            ImageFavoris.data.append(imageDatas[row])
+        } else {
+            ImageFavoris.data.removeAll { (data) in
+                if data.id == imageDatas[row].id {
+                    return true
+                } else {
+                    return false
+                }
+            }
+        }
     }
 }

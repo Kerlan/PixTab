@@ -14,5 +14,11 @@ class ImageCollectionViewCell: UICollectionViewCell {
     func configure(image: UIImage, isSelected: Bool) {
         heartImageView.isHidden = !isSelected
         imageImageView.image = image
+        
+        if isSelected {
+            imageImageView.alpha = 0.5
+        } else {
+            imageImageView.alpha = 1
+        }
     }
 }

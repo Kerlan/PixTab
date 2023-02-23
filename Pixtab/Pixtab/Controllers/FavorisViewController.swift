@@ -8,20 +8,29 @@
 import UIKit
 
 class FavorisViewController: UIViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
     }
 }
 
 extension FavorisViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 0
+        return ImageFavoris.data.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        return UICollectionViewCell()
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FavorisImageCell", for: indexPath) as? ImageCollectionViewCell else {
+            return UICollectionViewCell()
+        }
+        cell.configure(image: ImageFavoris.data[indexPath.row].image, isSelected: ImageFavoris.data[indexPath.row].isSelected)
+        return cell
+    }
+}
+
+extension FavorisViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        ImageFavoris.data.remove(at: indexPath.row)
+        collectionView.reloadData()
     }
 }

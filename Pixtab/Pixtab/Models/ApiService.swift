@@ -27,7 +27,8 @@ class ApiService {
             URLQueryItem(name: "key", value: ApiService.apiKey),
             URLQueryItem(name: "q", value: search),
             URLQueryItem(name: "image_type", value: "photo"),
-            URLQueryItem(name: "page", value: page)
+            URLQueryItem(name: "page", value: page),
+            URLQueryItem(name: "per_page", value: "18")
         ]
         
         guard let url: URL = urlComponents.url else {
@@ -60,8 +61,8 @@ class ApiService {
                     completionHandler(false, "Error in hits", nil)
                     return
                 }
-                self.getImagesInResponse(hits: hits) { (data) in
-                    completionHandler(true, "Data received", data)
+                self.getImagesInResponse(hits: hits) { (images) in
+                    completionHandler(true, "Data received", images)
                 }
             }
         })
@@ -70,19 +71,19 @@ class ApiService {
     
     private func getImagesInResponse(hits: [[String : Any]], completionHandler: @escaping ([ImageData]) -> Void) {
         var images: [ImageData] = []
-        print(hits.count)
+        
         for hit in hits {
-            if let imageUrl = hit["webformatURL"] as? String {
-                ImageService.shared.getImage(imageUrl: imageUrl) { (data) in
-                    guard let data = data else {
-                        return
-                    }
-                    guard let image = UIImage(data: data) else {
-                        return
-                    }
-                    print(image)
-                    images.append(ImageData(image: image, isSelected: false))
+            if let imageUrl = hit["webformatURL"] as? String, let id = hit["id"] as? Int {
+                guard let url = URL(string: imageUrl) else {
+                    return
                 }
+                guard let data: Data = try? Data(contentsOf: url) else {
+                    return
+                }
+                guard let image = UIImage(data: data) else {
+                    return
+                }
+                images.append(ImageData(id: id, image: image, isSelected: false))
             }
         }
         completionHandler(images)

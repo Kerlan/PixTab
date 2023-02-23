@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 
 struct ImageData {
+    let id: Int
     let image: UIImage
-    let isSelected: Bool
+    var isSelected: Bool
 }
